@@ -16,14 +16,15 @@ public class PlayQueue {
      * @param song - The Song to add
      */
     public void addSong(Song song) {
-        // TODO: To be completed
-        SongNode current = new SongNode(song, end, end);
+        /* TODO: To be completed*/
+        SongNode curr = new SongNode(song, null, null);
         if (start == null) {
-            start = current;
-            end = current;
+            start = curr;
+            end = curr;
         } else {
-            end.next = current;
-            end = current;
+            end.next = curr;
+            curr.previous = end;
+            end = curr;
         }
 
     }
@@ -36,24 +37,25 @@ public class PlayQueue {
      * @return - true if a SongNode was removed, false otherwise.
      */
     public boolean removeSong(Song song) {
-        SongNode current = start;
-        while(current != null) {
-            if (current.song.equals(song)) {
-                if (current == start) {
-                    start = current.next;
+        /* TODO: To be completed */ 
+        SongNode curr = start;
+        while(curr != null) {
+            if (curr.song.equals(song)) {
+                if (curr == start) {
+                    start = curr.next;
                     start.previous = null;
-                } else if (current == end) {
-                    end = current.previous;
+                } else if (curr == end) {
+                    end = curr.previous;
                     end.next = null;
                 } else {
-                    current.previous.next = current.next;
-                    current.next.previous = current.previous;
+                    curr.previous.next = curr.next;
+                    curr.next.previous = curr.previous;
                 }
                 return true;
             }
-            current = current.next;
+            curr = curr.next;
         }
-        return false;  // TODO: To be completed
+        return false;  
     }
 
     /**
@@ -65,25 +67,26 @@ public class PlayQueue {
      */
     public Song removeSong(int index) {
         int i = 0;
-        SongNode current = start;
-        while (current != null) {
+        SongNode curr = start;
+        while (curr != null) {
             if (i == index) {
-                if (current == start) {
-                    start = current.next;
+                if (curr == start) {
+                    start = curr.next;
                     start.previous = null;
-                } else if (current == end) {
-                    end = current.previous;
+                } else if (curr == end) {
+                    end = curr.previous;
                     end.next = null;
                 } else {
-                    current.previous.next = current.next;
-                    current.next.previous = current.previous;
+                    curr.previous.next = curr.next;
+                    curr.next.previous = curr.previous;
                 }
-                return current.song;
+                return curr.song;
             }
-            current = current.next;
+            curr = curr.next;
             i++;
         }
-        return null;  // TODO: To be completed
+        return null;  
+         /*TODO: To be completed */
     }
 
     /**
@@ -91,28 +94,29 @@ public class PlayQueue {
      * @return the size of the PlayQueue
      */
     public int size() {
-        int count = 0;
-        SongNode current = start;
-        while (current != null) {
-            count++;
-            current = current.next;
+        int cnt = 0;
+        SongNode curr = start;
+        while (curr != null) {
+            cnt++;
+            curr = curr.next;
         }
-        return -1;  // TODO: To be completed
+        return -1;  
+        /*TODO: To be completed */
     }
 
     /**
      * Reverse the calling object PlayQueues Song ordering.
      */
     public void reverseQueue() {
-        SongNode current = start;
+        SongNode curr = start;
         SongNode temp;
-        while (current != null) {
-            temp = current.next;
-            current.next = current.previous;
-            current.previous = temp;
-            current = temp;
+        while (curr != null) {
+            temp = curr.next;
+            curr.next = curr.previous;
+            curr.previous = temp;
+            curr = temp;
         }
-        // TODO: To be completed
+         /*TODO: To be completed */
     }
 
     /**
@@ -154,14 +158,14 @@ public class PlayQueue {
      */
     public void moveSong(int fromIndex, int amount) {
         int i = 0;
-        SongNode current = start;
+        SongNode curr = start;
         SongNode from = null;
-        while (current != null) {
+        while (curr != null) {
             if (i == fromIndex) {
-                from = current;
+                from = curr;
                 break;
             }
-            current = current.next;
+            curr = curr.next;
             i++;
         }
         if (from == null) {
@@ -205,7 +209,7 @@ public class PlayQueue {
                 from.next.previous = from;
             }
         }
-        // TODO: To be completed
+         /*TODO: To be completed */
     }
 
     /**
@@ -218,21 +222,21 @@ public class PlayQueue {
         int i = 0;
         SongNode first = null;
         SongNode second = null;
-        SongNode current = start;
-        while (current != null) {
+        SongNode curr = start;
+        while (curr != null) {
             if (i == firstIndex) {
-                first = current;
+                first = curr;
             }
             if (i == secondIndex) {
-                second = current;
+                second = curr;
             }
             if (first != null && second != null) {
                 break;
             }
-            current = current.next;
+            curr = curr.next;
             i++;
         }
-        // TODO: To be completed
+         /*TODO: To be completed */
     }
 
     /**
@@ -251,7 +255,8 @@ public class PlayQueue {
                 return true;
             }
         }
-        return false;  // TODO: To be completed
+        return false;  
+         /*TODO: To be completed */
     }
 
     /**
@@ -284,22 +289,23 @@ public class PlayQueue {
         }
         PlayQueue shuffled = new PlayQueue();
         shuffled.addSong(start.song);
-        SongNode current = start.next;
+        SongNode curr = start.next;
         SongNode temp = shuffled.start;
-        while (current != null) {
+        while (curr != null) {
             int index = ((temp.song.title.length()*temp.song.title.length() + 1) % p * s )% size;
             SongNode next = start;
             for (int i = 0; i < index; i++) {
                 next = next.next;
             }
-            if (next == current) {
+            if (next == curr) {
                 break;
             }
             shuffled.addSong(next.song);
             temp = temp.next;
-            current = current.next;
+            curr = curr.next;
         }
-        return null;  // TODO: To be completed
+        return null; 
+         /*TODO: To be completed */
     }
 
 
