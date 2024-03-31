@@ -100,7 +100,7 @@ public class PlayQueue {
             cnt++;
             curr = curr.next;
         }
-        return -1;  
+        return cnt;  
         /*TODO: To be completed */
     }
 
@@ -231,6 +231,9 @@ public class PlayQueue {
                 second = curr;
             }
             if (first != null && second != null) {
+                Song temp = first.song;
+                first.song = second.song;
+                second.song = temp;
                 break;
             }
             curr = curr.next;
@@ -304,7 +307,7 @@ public class PlayQueue {
             temp = temp.next;
             curr = curr.next;
         }
-        return null; 
+        return shuffled; 
          /*TODO: To be completed */
     }
 
