@@ -3,6 +3,7 @@ package questions;
 import doNotModify.Song;
 import doNotModify.SongNode;
 
+
 public class PlayQueue {
     public SongNode start; // DO NOT MODIFY
     public SongNode end;   // DO NOT MODIFY
@@ -116,6 +117,9 @@ public class PlayQueue {
             curr.previous = temp;
             curr = temp;
         }
+        temp = start;
+        start = end;
+        end = temp;
          /*TODO: To be completed */
     }
 
@@ -286,31 +290,55 @@ public class PlayQueue {
      * @param s - seed number
      * @return the shuffled queue
      */
-    public PlayQueue shuffledQueue(int p, int s) {
-        if (start == null) {
-            return null;
+    public int nextPrime(int n) {
+        if (n <= 1) {
+            return 2;
         }
+        int prime = n;
+        boolean found = false;
+        while (!found) {
+            prime++;
+            for (int i = 2; i <= Math.sqrt(prime); i++) {
+                if (prime % i == 0) {
+                    break;
+                }
+            }
+            found = true;
+        }
+        return prime;
+    }
+
+    public PlayQueue shuffledQueue(int s) {
+        int p = nextPrime(size);
         PlayQueue shuffled = new PlayQueue();
-        shuffled.addSong(start.song);
-        SongNode curr = start.next;
-        SongNode temp = shuffled.start;
-        while (curr != null) {
-            int index = ((temp.song.title.length()*temp.song.title.length() + 1) % p * s )% size;
-            SongNode next = start;
-            for (int i = 0; i < index; i++) {
-                next = next.next;
-            }
-            if (next == curr) {
-                break;
-            }
-            shuffled.addSong(next.song);
-            temp = temp.next;
+        SongNode[] nodes = new SongNode[size];
+        SongNode curr = start;
+        for (int i = 0; i < size; i++) {
+            nodes[i] = curr;
             curr = curr.next;
         }
-        return shuffled; 
+        shuffled.addSong(nodes[0].song);
+        int x = 0;
+        for (int i = 1; i < size; i++) {
+            x = (x * x + 1) % p * s % size;
+            if (nodes[x] == null) {
+                break;
+            }
+            shuffled.addSong(nodes[x].song);
+            nodes[x] = null;
+        }
+        for (int i = 1; i < size; i++) {
+            if (nodes[i] != null) {
+                shuffled.addSong(nodes[i].song);
+            }
+        }
+        return shuffled;
+
          /*TODO: To be completed */
     }
 
+
+    
 
     @Override
     public String toString() {
